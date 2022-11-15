@@ -1,3 +1,10 @@
+xfonts-75dpi (1:1.0.4.2-deepin) stable; urgency=medium
+
+  * Fix build on RISC-V
+  * 
+
+ -- Clansty <i@gao4.pw>  Thu, 10 Nov 2022 06:52:18 +0000
+
 xfonts-75dpi (1:1.0.4.1-deepin) stable; urgency=medium
 
   * ['Autobuild release-candidate']
