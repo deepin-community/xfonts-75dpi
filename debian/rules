@@ -52,8 +52,12 @@ $(STAMP_DIR)/build-%: $(STAMP_DIR)/prepare
 	>$@
 
 build: build-stamp
+build-indep: build-stamp
 build-stamp: $(addprefix $(STAMP_DIR)/build-,$(SUBDIRS))
 	>$@
+
+build-arch:
+# Nothing to do.
 
 clean:
 	dh_testdir
@@ -68,7 +72,7 @@ clean:
 install: build
 	dh_testdir
 	dh_testroot
-	dh_clean -k
+	dh_prep
 	dh_installdirs
 	set -e; for FILE in $(SUBDIRS); do \
 		$(MAKE) -C "$$FILE"-build DESTDIR=$(CURDIR)/debian/tmp install; \
@@ -86,7 +90,8 @@ binary-indep: build install
 	dh_testroot
 
 	dh_installdocs
-	dh_install --fail-missing --exclude fonts.dir --exclude fonts.scale
+	dh_install --exclude fonts.dir --exclude fonts.scale
+	dh_missing --fail-missing --exclude fonts.dir --exclude fonts.scale
 	dh_installxfonts
 	dh_installchangelogs
 	dh_compress
@@ -108,7 +113,7 @@ get-tarball-%:
 
 debian/watch.%:
 	echo version=3 > $@
-	echo 'http://xorg.freedesktop.org/releases/individual/font/ $*-(.*)\.tar\.gz' >> $@
+	echo 'https://xorg.freedesktop.org/releases/individual/font/ $*-(.*)\.tar\.gz' >> $@
 
 .PHONY: watchfiles
 watchfiles: $(addprefix debian/watch.,$(SUBDIRS))
